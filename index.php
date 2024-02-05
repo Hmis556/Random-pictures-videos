@@ -11,7 +11,7 @@ function get_media_from_folder($folder) {
         while (false !== ($file = readdir($handle))) {
             if ($file != '.' && $file != '..') {
                 $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-                $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4'];
+                $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'mov', 'avi', 'wmv', 'flv', 'ogv', 'ogg', 'webm'];
                 if (in_array($extension, $allowedExtensions)) {
                     $media[] = $file;
                 }
@@ -42,6 +42,13 @@ if ($media = get_media_from_folder($folder)) {
         }
 
         if ($contentType) {
+            // 生成元数据文件
+            $metadata = [
+                'contentType' => $contentType,
+                'duration' => '', // 视频时长，留空表示未知
+            ];
+            file_put_contents($folder . '/metadata.json', json_encode($metadata));
+
             header('Content-Type: ' . $contentType);
             header('Content-Disposition: inline');
             header('Content-Length: ' . filesize($media_path));
