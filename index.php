@@ -45,7 +45,7 @@ if ($media = get_media_from_folder($folder)) {
             // 生成元数据文件
             $metadata = [
                 'contentType' => $contentType,
-                'duration' => '10:00', // 视频时长，留空表示未知
+                'duration' => '10:00', // 视频时长，按需修改。
             ];
             file_put_contents($folder . '/metadata.json', json_encode($metadata));
 
